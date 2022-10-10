@@ -1,0 +1,53 @@
+import requests
+
+import json
+
+#defining main function for all weather data
+def main():
+  #validation of input
+  print('sucessfully received data')
+  
+  data = json.loads(request.text)
+  #weather data
+  print ("")
+  print('Your requested weather data:')
+
+  print('name',data['name'])
+  print('temperature',data['main']['temp'],"in Kelvin")
+  print('wind speed',data['wind']['speed'],'deg',data['wind']['deg'])
+  print('pressure',data['main']['pressure'])
+  print('humidity',data['main']['humidity'])
+  print('cordinates',data['coord'])
+  print('clouds',data['clouds'])
+  print('weather',data['weather'][0]['main'])
+  print('weather description::',data['weather'][0]['description'])
+
+while True:
+  #user input
+  input1 = input('Enter zip code or City name: ')
+
+  #if else statement defining zip or city
+  if input1.isdigit():
+    key = f"zip={input1}"
+  else:
+    key = f'q={input1}'
+
+    #request URL for ZIP
+    request_url = 'http://api.openweathermap.org/data/2.5/weather?'+ key +'APPID=13a944a1c8fb4cdaa4c5e80247e1fb3c'
+
+  #request URL for City
+  request_url = 'http://api.openweathermap.org/data/2.5/weather?appid=13a944a1c8fb4cdaa4c5e80247e1fb3c&' + (key)
+
+  #prints url, great for troubleshooting
+  print(request_url)
+
+  print('requesting...')
+  request = requests.get(request_url)
+  
+  #if else statement for status code, will tell user if city or zip doesnt exist
+  if request.status_code == 200:
+    main()
+  else:
+    print(request.status_code)
+    print(request.text)
+
